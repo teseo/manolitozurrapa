@@ -11,6 +11,7 @@ import type {
   WatchStreak,
 } from '../types/index.js';
 import { INTERVALS } from '../config/constants.js';
+import { sanitizeUserInput } from '../utils/helpers.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CONTEXTO_PATH = path.join(__dirname, '../../CONTEXTO.md');
@@ -135,6 +136,9 @@ export class MemoryManager {
    */
   updateMemory(username: string, topic: string): void {
     const user = username.toLowerCase();
+    // Sanitize topic before storing to prevent persistent injection
+    const sanitizedTopic = sanitizeUserInput(topic, 100);
+
     if (!this.memory.users[user]) {
       this.memory.users[user] = {
         lastTopics: [],
@@ -143,14 +147,14 @@ export class MemoryManager {
       };
     }
     this.memory.users[user].lastTopics = [
-      topic,
+      sanitizedTopic,
       ...this.memory.users[user].lastTopics,
     ].slice(0, 3);
     this.memory.users[user].lastInteraction = new Date().toISOString();
     this.memory.users[user].interactionCount++;
     this.memory.stats.totalInteractions++;
     this.saveMemory();
-    console.log('🧠 Memoria actualizada:', username, topic);
+    console.log('🧠 Memoria actualizada:', username, sanitizedTopic);
   }
 
   /**
