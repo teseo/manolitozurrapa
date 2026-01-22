@@ -1,0 +1,58 @@
+{
+  "name": "manolito-zurrapa",
+  "version": "2.0.0",
+  "description": "Bot de Twitch con personalidad andaluza - IA, clips, búsquedas y más",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "auth": "tsx src/auth.ts",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
+    "test:watch": "NODE_OPTIONS='--experimental-vm-modules' jest --watch",
+    "test:coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "groq-sdk": "^0.37.0",
+    "tmi.js": "^1.8.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.0",
+    "@types/tmi.js": "^1.8.6",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "twitch",
+    "bot",
+    "clips",
+    "ai",
+    "groq",
+    "llama",
+    "typescript",
+    "andalucia"
+  ],
+  "author": "teseo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tu-usuario/manolito-zurrapa.git"
+  }
+}
