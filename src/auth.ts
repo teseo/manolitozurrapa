@@ -1,4 +1,5 @@
 import http from 'node:http';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { exec } from 'node:child_process';
@@ -22,7 +23,10 @@ if (!CLIENT_ID || !CLIENT_SECRET) {
   process.exit(1);
 }
 
-const authUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=${encodeURIComponent(SCOPES)}`;
+// Generate random state for CSRF protection
+const oauthState = crypto.randomBytes(16).toString('hex');
+
+const authUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=${encodeURIComponent(SCOPES)}&state=${oauthState}`;
 
 interface TokenResponse {
   access_token: string;
@@ -72,6 +76,8 @@ function updateEnvFile(accessToken: string, refreshToken: string): void {
   envContent = updateOrAdd(envContent, 'TWITCH_REFRESH_TOKEN', refreshToken);
 
   fs.writeFileSync(ENV_PATH, envContent);
+  // Secure file permissions (owner read/write only)
+  fs.chmodSync(ENV_PATH, 0o600);
 }
 
 function saveTokensFile(accessToken: string, refreshToken: string, expiresIn: number): void {
@@ -88,6 +94,8 @@ function saveTokensFile(accessToken: string, refreshToken: string, expiresIn: nu
   };
 
   fs.writeFileSync(TOKENS_PATH, JSON.stringify(data, null, 2));
+  // Secure file permissions (owner read/write only)
+  fs.chmodSync(TOKENS_PATH, 0o600);
 }
 
 function openBrowser(url: string): void {
@@ -101,12 +109,21 @@ const server = http.createServer(async (req, res) => {
 
   if (url.pathname === '/callback') {
     const code = url.searchParams.get('code');
+    const state = url.searchParams.get('state');
     const error = url.searchParams.get('error');
 
     if (error) {
       res.writeHead(400, { 'Content-Type': 'text/html; charset=utf-8' });
       res.end(`<h1>Error de autorización</h1><p>${error}</p>`);
       server.close();
+      return;
+    }
+
+    // Validate state to prevent CSRF attacks
+    if (state !== oauthState) {
+      res.writeHead(400, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end('<h1>Error</h1><p>State inválido - posible ataque CSRF</p>');
+      console.error('❌ State mismatch - CSRF protection triggered');
       return;
     }
 
@@ -151,8 +168,9 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(3000, () => {
-  console.log('Servidor de autenticación en http://localhost:3000');
+// Bind to localhost only (not 0.0.0.0) to prevent external access
+server.listen(3000, '127.0.0.1', () => {
+  console.log('Servidor de autenticación en http://127.0.0.1:3000 (solo local)');
   console.log('Abriendo navegador para autorización...\n');
   openBrowser(authUrl);
 });

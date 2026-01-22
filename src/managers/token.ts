@@ -91,6 +91,8 @@ export class TokenManager extends EventEmitter {
     };
 
     fs.writeFileSync(TOKENS_PATH, JSON.stringify(data, null, 2));
+    // Secure file permissions (owner read/write only)
+    fs.chmodSync(TOKENS_PATH, 0o600);
     this.updateEnv();
     console.log('💾 Tokens guardados');
   }
@@ -115,6 +117,8 @@ export class TokenManager extends EventEmitter {
     content = updateOrAdd(content, 'TWITCH_REFRESH_TOKEN', this.refreshToken || '');
 
     fs.writeFileSync(ENV_PATH, content);
+    // Secure file permissions (owner read/write only)
+    fs.chmodSync(ENV_PATH, 0o600);
   }
 
   /**

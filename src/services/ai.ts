@@ -114,10 +114,13 @@ IMPORTANTE:
     console.log(`🔍 Búsqueda de ${username} (${userRole}): ${sanitizedQuestion}`);
 
     // Construir fuentes con formato mejorado
+    // Sanitize external content to prevent prompt injection via malicious pages
     const sourcesText = searchResults
       .map((r, i) => {
         const domain = this.capitalizeFirst(this.extractDomain(r.url));
-        return `${i + 1}. [${domain}] ${r.title}: ${r.description}`;
+        const safeTitle = sanitizeUserInput(r.title, 100);
+        const safeDesc = sanitizeUserInput(r.description, 200);
+        return `${i + 1}. [${domain}] ${safeTitle}: ${safeDesc}`;
       })
       .join('\n');
 
