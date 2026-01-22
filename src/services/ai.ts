@@ -59,18 +59,25 @@ export class AIService {
 
     const userRole = this.memory.detectRole(username);
     const userMemory = this.memory.getMemory(username);
+    const contexto = this.memory.getContext();
     const systemPrompt = this.literales.system_prompt[lang] || this.literales.system_prompt.es;
 
     const contextPrompt = `
 ${systemPrompt}
+
+CONTEXTO DEL CANAL:
+${contexto}
 
 USUARIO: ${username}
 ROL: ${userRole}
 ${userMemory ? `HISTORIAL: ${userMemory.lastTopics.join(', ')}` : 'Primera interacción'}
 
 IMPORTANTE:
-- Si es Mariajosobrasada, trátala como reina 👸
+- Responde en MÁXIMO 300 caracteres (esto es crítico)
+- Completa siempre tus frases, nunca cortes a mitad
+- Si es Mariajosobrasada o Glorimar97, trátala como reina 👸
 - Si es MOD/VIP/SUB, reconoce su estatus
+- Añade UN emote del canal al final: teseoFeliz, teseoCorazon, teseoClap
 `;
 
     const response = await this.groq.chat.completions.create({
@@ -79,11 +86,25 @@ IMPORTANTE:
         { role: 'system', content: contextPrompt },
         { role: 'user', content: wrappedMessage },
       ],
-      max_tokens: 150,
+      max_tokens: 200,
       temperature: this.temperature,
     });
 
-    const result = response.choices[0]?.message?.content || this.getFallback(lang);
+    let result = response.choices[0]?.message?.content || this.getFallback(lang);
+
+    // Truncado inteligente si excede límite
+    if (result.length > 400) {
+      const truncated = result.slice(0, 400);
+      const lastDot = truncated.lastIndexOf('.');
+      const lastExcl = truncated.lastIndexOf('!');
+      const lastQ = truncated.lastIndexOf('?');
+      const lastPunct = Math.max(lastDot, lastExcl, lastQ);
+      if (lastPunct > 200) {
+        result = truncated.slice(0, lastPunct + 1);
+      } else {
+        result = truncated.slice(0, 397) + '...';
+      }
+    }
 
     // Actualizar memoria
     this.memory.updateMemory(username, userMessage.slice(0, 50));
