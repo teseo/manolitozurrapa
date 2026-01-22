@@ -93,7 +93,7 @@ describe('DiscordService', () => {
         'https://discord.com/webhook',
         expect.objectContaining({
           method: 'POST',
-          body: expect.stringContaining('Epic Moment'),
+          body: expect.stringContaining('https://clips.twitch.tv/test'),
         })
       );
     });

@@ -1,4 +1,4 @@
-import type { ClipData, UserRole } from '../types/index.js';
+import type { ClipData } from '../types/index.js';
 import type { MemoryManager } from '../managers/memory.js';
 
 interface DiscordServiceConfig {
@@ -7,17 +7,16 @@ interface DiscordServiceConfig {
 
 export class DiscordService {
   private webhookUrl: string;
-  private memory: MemoryManager | null = null;
 
   constructor(config: DiscordServiceConfig) {
     this.webhookUrl = config.webhookUrl;
   }
 
   /**
-   * Establece el MemoryManager para detectar roles
+   * Establece el MemoryManager (mantenido por compatibilidad)
    */
-  setMemoryManager(memory: MemoryManager): void {
-    this.memory = memory;
+  setMemoryManager(_memory: MemoryManager): void {
+    // No-op: ya no se usa para notificaciones de clips
   }
 
   /**
@@ -25,17 +24,6 @@ export class DiscordService {
    */
   hasWebhook(): boolean {
     return !!this.webhookUrl;
-  }
-
-  /**
-   * Obtiene mensaje de agradecimiento según rol
-   */
-  private getGracias(role: UserRole, creator: string): string {
-    if (role.includes('REINA')) return `¡Gracias mi reina ${creator}! 👸💜`;
-    if (role.includes('MOD')) return `¡Gracias por cuidar el canal, ${creator}! 🛡️`;
-    if (role.includes('VIP')) return `¡Gracias crack, ${creator}! 👑`;
-    if (role.includes('SUB')) return `¡Gracias por el apoyo, ${creator}! ⭐`;
-    return `¡Gracias ${creator}! 💜`;
   }
 
   /**
@@ -52,7 +40,7 @@ export class DiscordService {
       embeds: [{
         title: '⚠️ ALERTA',
         description: message,
-        color: 0xFF0000, // Rojo
+        color: 0xFF0000,
         timestamp: new Date().toISOString(),
         footer: { text: 'ManolitoZurrapa Bot' }
       }]
@@ -78,9 +66,8 @@ export class DiscordService {
       throw new Error('No Discord webhook configured');
     }
 
-    const { url, creator } = clipData;
+    const { url } = clipData;
 
-    // URL en content para que Discord renderice el player nativo con play button
     const payload = {
       username: 'ManolitoZurrapa',
       content: `🎬 Un clip nuevo para las personas\n\n${url}`,
