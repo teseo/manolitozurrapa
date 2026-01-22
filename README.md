@@ -1,8 +1,10 @@
+🇬🇧 English | [🇪🇸 Español](README_ES.md)
+
 # ManolitoZurrapa
 
-> *El bot de Twitch más castizo de to internet, illo*
+> *The most authentic Andalusian Twitch bot on the internet, illo*
 
-Bot de Twitch con personalidad andaluza que crea clips, responde preguntas con IA, busca en internet, celebra eventos del canal, echa piropos a las reinas del chat y genera resúmenes del stream.
+Twitch bot with Andalusian personality that creates clips, answers questions with AI, searches the web, celebrates channel events, compliments the queens of chat, and generates stream summaries.
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?logo=typescript)
 ![Node.js](https://img.shields.io/badge/Node.js-20+-green?logo=node.js)
@@ -13,156 +15,156 @@ Bot de Twitch con personalidad andaluza que crea clips, responde preguntas con I
 
 ---
 
-## Características
+## Features
 
-### Sistema de Clips
-- **`!clip [duración] [título]`** - Crea clips del stream
-- Duraciones: 15, 30, 45, 60, 90 segundos
-- Cooldown de 30s entre clips
-- Permisos: Broadcaster, Mods, VIPs
-- Notificación automática a Discord
+### Clip System
+- **`!clip [duration] [title]`** - Creates stream clips
+- Durations: 15, 30, 45, 60, 90 seconds
+- 30s cooldown between clips
+- Permissions: Broadcaster, Mods, VIPs
+- Automatic Discord notification
 
-### Chat con IA (Groq + Llama 3.3 70B)
-- **`!oyemanolito <pregunta>`** - Chat rápido con Manolito
-- **`@ManolitoZurrapa <mensaje>`** - Interacción completa (chat + búsquedas)
-- Personalidad andaluza: illo, quillo, aro, ozú, miarma...
-- Contexto del canal: conoce al streamer y la comunidad
-- Memoria de usuario: recuerda tus últimas conversaciones
-- **Protección anti prompt-injection**: sanitiza inputs maliciosos
+### AI Chat (Groq + Llama 3.3 70B)
+- **`!oyemanolito <question>`** - Quick chat with Manolito
+- **`@ManolitoZurrapa <message>`** - Full interaction (chat + search)
+- Andalusian personality: illo, quillo, aro, ozú, miarma...
+- Channel context: knows the streamer and community
+- User memory: remembers your last conversations
+- **Anti prompt-injection protection**: sanitizes malicious inputs
 
-### Búsqueda Web (Brave Search + IA)
-- **`@ManolitoZurrapa busca/buscame <query>`** - Busca en internet
-- Variantes: "busca", "buscame", "puedes buscar", "search for" (EN), "soek" (AF)
-- Sintetiza resultados de múltiples fuentes
-- Cooldown de 10 minutos tras alcanzar límite (resetea contador)
+### Web Search (Brave Search + AI)
+- **`@ManolitoZurrapa search for <query>`** - Search the web
+- Variants: "busca", "buscame", "puedes buscar" (ES), "search for" (EN), "soek" (AF)
+- Synthesizes results from multiple sources
+- 10-minute cooldown after reaching limit (resets counter)
 
-### Multi-idioma
-- **Español** - Acento andaluz (illo, quillo, miarma...)
+### Multi-language
+- **Spanish** - Andalusian accent (illo, quillo, miarma...)
 - **English** - British/Australian casual (mate, bloke, cheers...)
 - **Afrikaans** - South African slang (boet, tjom, lekker...)
-- Detección automática del idioma del mensaje
-- Respuestas en el mismo idioma detectado
+- Automatic language detection
+- Responds in the same detected language
 
-### Resumen de Stream
-- **`!resumen`** - Genera resumen del directo (solo broadcaster)
-- Sistema de resúmenes progresivos cada 30 minutos
-- Trackea: clips, subs, raids, bits, búsquedas
-- Combina mini-resúmenes en un resumen final
+### Stream Summary
+- **`!resumen`** - Generates stream summary (broadcaster only)
+- Progressive summary system every 30 minutes
+- Tracks: clips, subs, raids, bits, searches
+- Combines mini-summaries into a final summary
 
-### Eventos de Twitch
-El bot responde automáticamente a:
-- **Suscripciones** - Bienvenida a nuevos subs
-- **Resubs** - Celebra la fidelidad
-- **Sub gifts** - Agradece a los gifters
-- **Raids** - Da la bienvenida a raiders
-- **Bits/Cheers** - Agradece las donaciones
-- **Watch Streaks** - Celebra rachas de visualización
+### Twitch Events
+The bot automatically responds to:
+- **Subscriptions** - Welcomes new subs
+- **Resubs** - Celebrates loyalty
+- **Sub gifts** - Thanks gifters
+- **Raids** - Welcomes raiders
+- **Bits/Cheers** - Thanks donations
+- **Watch Streaks** - Celebrates viewing streaks
 
 ### Token Auto-Refresh
-- Validación proactiva cada 30 minutos
-- Refresh automático antes de que expire
-- Reconexión transparente del cliente de chat
-- Notificaciones Discord si algo falla
+- Proactive validation every 30 minutes
+- Automatic refresh before expiration
+- Transparent chat client reconnection
+- Discord notifications if something fails
 
-### Seguridad
-- **Protección prompt injection**: Bloquea intentos de manipular al bot
+### Security
+- **Prompt injection protection**: Blocks attempts to manipulate the bot
   - "ignore previous instructions", "reveal system prompt", etc.
-- **Sanitización de inputs**: Limpia delimitadores y patrones maliciosos
-- **User content wrapping**: Aísla mensajes de usuario del system prompt
+- **Input sanitization**: Cleans delimiters and malicious patterns
+- **User content wrapping**: Isolates user messages from system prompt
 
-### Sistema de Tiers
+### Tier System
 
-| Tier | Mensajes IA | Búsquedas |
-|------|-------------|-----------|
+| Tier | AI Messages | Searches |
+|------|-------------|----------|
 | No sub | - | - |
-| T1 / Prime | 30/sesión | - |
-| T2 | 60/sesión | 10 + cooldown 10min |
-| T3 | Infinito | 150 + cooldown 10min |
-| VIP/Mod | Infinito | 150 + cooldown 10min |
-| Broadcaster | Infinito | Infinito |
+| T1 / Prime | 30/session | - |
+| T2 | 60/session | 10 + 10min cooldown |
+| T3 | Unlimited | 150 + 10min cooldown |
+| VIP/Mod | Unlimited | 150 + 10min cooldown |
+| Broadcaster | Unlimited | Unlimited |
 
 ---
 
-## Instalación
+## Installation
 
 ```bash
-# Clonar el repo
+# Clone the repo
 git clone https://github.com/teseo/manolitozurrapa.git
 cd manolitozurrapa
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Configurar credenciales
+# Configure credentials
 cp .env.example .env
 cp src/config/community.example.ts src/config/community.ts
 cp CONTEXTO.example.md CONTEXTO.md
 
-# Editar archivos de configuración con tus datos
+# Edit configuration files with your data
 
-# Autenticación OAuth con Twitch
+# OAuth authentication with Twitch
 npm run auth
 
 # Build TypeScript
 npm run build
 
-# Iniciar el bot
+# Start the bot
 npm start
 ```
 
 ---
 
-## Configuración
+## Configuration
 
-### Variables de entorno (`.env`)
+### Environment variables (`.env`)
 
 ```env
-TWITCH_CLIENT_ID=tu_client_id
-TWITCH_CLIENT_SECRET=tu_client_secret
-TWITCH_CHANNEL=tu_canal
-TWITCH_BOT_USERNAME=nombre_del_bot
-GROQ_API_KEY=tu_groq_api_key
-BRAVE_API_KEY=tu_brave_api_key
-DISCORD_WEBHOOK_URL=tu_webhook_url
+TWITCH_CLIENT_ID=your_client_id
+TWITCH_CLIENT_SECRET=your_client_secret
+TWITCH_CHANNEL=your_channel
+TWITCH_BOT_USERNAME=bot_name
+GROQ_API_KEY=your_groq_api_key
+BRAVE_API_KEY=your_brave_api_key
+DISCORD_WEBHOOK_URL=your_webhook_url
 ```
 
-### Archivos de configuración
+### Configuration files
 
-- **`CONTEXTO.md`** - Información del canal para las respuestas de IA
-- **`literales.json`** - Textos, piropos y personalidad (ES/EN/AF)
-- **`src/config/community.ts`** - Comunidad: reinas, mods, VIPs, emotes
+- **`CONTEXTO.md`** - Channel info for AI responses
+- **`literales.json`** - Texts, compliments and personality (ES/EN/AF)
+- **`src/config/community.ts`** - Community: queens, mods, VIPs, emotes
 
 ---
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 manolitozurrapa/
 ├── src/
-│   ├── index.ts              # Bot principal
-│   ├── env.ts                # Carga de variables de entorno
-│   ├── auth.ts               # Autenticación OAuth
+│   ├── index.ts              # Main bot
+│   ├── env.ts                # Environment variables loader
+│   ├── auth.ts               # OAuth authentication
 │   ├── config/
-│   │   ├── constants.ts      # Configuración y límites
-│   │   └── community.ts      # Roles y emotes del canal
+│   │   ├── constants.ts      # Configuration and limits
+│   │   └── community.ts      # Channel roles and emotes
 │   ├── services/
-│   │   ├── ai.ts             # Integración Groq/Llama
+│   │   ├── ai.ts             # Groq/Llama integration
 │   │   ├── search.ts         # Brave Search
-│   │   ├── discord.ts        # Webhooks Discord
-│   │   └── twitch.ts         # API de Twitch
+│   │   ├── discord.ts        # Discord Webhooks
+│   │   └── twitch.ts         # Twitch API
 │   ├── managers/
-│   │   ├── token.ts          # Gestión de tokens OAuth
-│   │   ├── memory.ts         # Memoria de usuarios
-│   │   └── stream-summary.ts # Resúmenes de stream
+│   │   ├── token.ts          # OAuth token management
+│   │   ├── memory.ts         # User memory
+│   │   └── stream-summary.ts # Stream summaries
 │   ├── utils/
-│   │   ├── helpers.ts        # Utilidades generales
-│   │   └── logger.ts         # Sistema de logging
+│   │   ├── helpers.ts        # General utilities
+│   │   └── logger.ts         # Logging system
 │   └── types/
-│       └── index.ts          # Tipos TypeScript
-├── tests/                    # Tests unitarios
-├── literales.json            # Textos multi-idioma
-├── data/                     # Datos de sesión (ignorado)
-└── logs/                     # Logs de sesión (ignorado)
+│       └── index.ts          # TypeScript types
+├── tests/                    # Unit tests
+├── literales.json            # Multi-language texts
+├── data/                     # Session data (ignored)
+└── logs/                     # Session logs (ignored)
 ```
 
 ---
@@ -170,50 +172,50 @@ manolitozurrapa/
 ## Scripts
 
 ```bash
-npm start          # Iniciar bot (producción)
-npm run dev        # Iniciar con hot-reload
-npm run build      # Compilar TypeScript
-npm run auth       # Obtener tokens OAuth
-npm test           # Ejecutar tests
-npm run validate   # Verificar sintaxis TypeScript
+npm start          # Start bot (production)
+npm run dev        # Start with hot-reload
+npm run build      # Compile TypeScript
+npm run auth       # Get OAuth tokens
+npm test           # Run tests
+npm run validate   # Check TypeScript syntax
 ```
 
 ---
 
-## Comandos del Bot
+## Bot Commands
 
-| Comando | Descripción | Permisos |
-|---------|-------------|----------|
-| `!clip [seg] [título]` | Crear clip | VIP/Mod/Broadcaster |
-| `!oyemanolito <msg>` | Chat con IA | Subs |
-| `@ManolitoZurrapa <msg>` | Chat con IA (+ búsqueda con "busca/buscame") | Subs (búsqueda T2+) |
-| `!cuentamealgomanolito` | Dato curioso | Todos |
-| `!mismensajes` | Ver uso restante | Todos |
-| `!resumen` | Resumen del stream | Broadcaster |
-| `!ayudaclip` | Ayuda de clips | Todos |
+| Command | Description | Permissions |
+|---------|-------------|-------------|
+| `!clip [sec] [title]` | Create clip | VIP/Mod/Broadcaster |
+| `!oyemanolito <msg>` | AI chat | Subs |
+| `@ManolitoZurrapa <msg>` | AI chat (+ search with "search for") | Subs (search T2+) |
+| `!cuentamealgomanolito` | Fun fact | Everyone |
+| `!mismensajes` | Check remaining usage | Everyone |
+| `!resumen` | Stream summary | Broadcaster |
+| `!ayudaclip` | Clip help | Everyone |
 
 ---
 
-## Stack Técnico
+## Tech Stack
 
 - **Runtime:** Node.js 20+ (ES Modules)
-- **Lenguaje:** TypeScript 5+
+- **Language:** TypeScript 5+
 - **Chat:** tmi.js
 - **LLM:** Groq API + Llama 3.3 70B Versatile
 - **Search:** Brave Search API
-- **Notificaciones:** Discord Webhooks
-- **Auth:** Twitch OAuth 2.0 con auto-refresh
+- **Notifications:** Discord Webhooks
+- **Auth:** Twitch OAuth 2.0 with auto-refresh
 - **Tests:** Jest
 
 ---
 
-## Licencia
+## License
 
 MIT
 
 ---
 
 <p align="center">
-  <i>Hecho con manzanilla en Andalucía</i> 🇳🇬<br>
+  <i>Made with manzanilla in Andalucía</i> 🇳🇬<br>
   <b>¡Claro que sí!</b>
 </p>
