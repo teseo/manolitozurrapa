@@ -23,14 +23,16 @@ Bot de Twitch con personalidad andaluza que crea clips, responde preguntas con I
 - Notificación automática a Discord
 
 ### Chat con IA (Groq + Llama 3.3 70B)
-- **`!oyemanolito <pregunta>`** - Pregúntale lo que quieras
-- **`@ManolitoZurrapa <mensaje>`** - Menciónalo directamente
+- **`!oyemanolito <pregunta>`** - Chat rápido con Manolito
+- **`@ManolitoZurrapa <mensaje>`** - Interacción completa (chat + búsquedas)
 - Personalidad andaluza: illo, quillo, aro, ozú, miarma...
 - Contexto del canal: conoce al streamer y la comunidad
 - Memoria de usuario: recuerda tus últimas conversaciones
+- **Protección anti prompt-injection**: sanitiza inputs maliciosos
 
 ### Búsqueda Web (Brave Search + IA)
 - **`@ManolitoZurrapa busca/buscame <query>`** - Busca en internet
+- Variantes: "busca", "buscame", "puedes buscar", "search for" (EN), "soek" (AF)
 - Sintetiza resultados de múltiples fuentes
 - Cooldown de 10 minutos tras alcanzar límite (resetea contador)
 
@@ -61,6 +63,12 @@ El bot responde automáticamente a:
 - Refresh automático antes de que expire
 - Reconexión transparente del cliente de chat
 - Notificaciones Discord si algo falla
+
+### Seguridad
+- **Protección prompt injection**: Bloquea intentos de manipular al bot
+  - "ignore previous instructions", "reveal system prompt", etc.
+- **Sanitización de inputs**: Limpia delimitadores y patrones maliciosos
+- **User content wrapping**: Aísla mensajes de usuario del system prompt
 
 ### Sistema de Tiers
 
