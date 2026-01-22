@@ -47,21 +47,22 @@ export class DiscordService {
       return;
     }
 
-    const content = [
-      `# ⚠️ ALERTA ManolitoZurrapa`,
-      ``,
-      `\`\`\``,
-      message,
-      `\`\`\``,
-      ``,
-      `-# ${new Date().toLocaleString('es-ES')}`,
-    ].join('\n');
+    const payload = {
+      username: 'ManolitoZurrapa',
+      embeds: [{
+        title: '⚠️ ALERTA',
+        description: message,
+        color: 0xFF0000, // Rojo
+        timestamp: new Date().toISOString(),
+        footer: { text: 'ManolitoZurrapa Bot' }
+      }]
+    };
 
     try {
       await fetch(this.webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content }),
+        body: JSON.stringify(payload),
       });
       console.log('🚨 Notificación de emergencia enviada a Discord');
     } catch (err) {
@@ -77,31 +78,18 @@ export class DiscordService {
       throw new Error('No Discord webhook configured');
     }
 
-    const { url, title, creator, duration } = clipData;
+    const { url, creator } = clipData;
 
-    // Detectar rol del creador
-    const role = this.memory?.detectRole(creator) || 'viewer';
-    const roleTag = role !== 'viewer' ? ` ${role}` : '';
-    const gracias = this.getGracias(role, creator);
-
-    // Mensaje con formato bonito + URL (Discord auto-embebe el player)
-    const content = [
-      `## 🎬 ${title || 'Nuevo clip'}`,
-      ``,
-      `> 👤 **${creator}**${roleTag}`,
-      `> ⏱️ ${duration} segundos`,
-      ``,
-      gracias,
-      ``,
-      `-# ${url}`,
-    ].join('\n');
+    // URL en content para que Discord renderice el player nativo con play button
+    const payload = {
+      username: 'ManolitoZurrapa',
+      content: `🎬 Un clip nuevo para las personas\n\n${url}`,
+    };
 
     const response = await fetch(this.webhookUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ content }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
