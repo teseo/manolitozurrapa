@@ -207,16 +207,6 @@ npm run validate   # Verificar sintaxis TypeScript
 
 ---
 
-## Contribuir
-
-1. Fork el repo
-2. Crea tu rama (`git checkout -b feature/MiFeature`)
-3. Commit (`git commit -m 'Add MiFeature'`)
-4. Push (`git push origin feature/MiFeature`)
-5. Abre un Pull Request
-
----
-
 ## Licencia
 
 MIT
