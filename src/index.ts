@@ -206,11 +206,11 @@ function incrementSearchUsage(username: string): number {
 function getUserTier(userstate: ChatUserstate): TierInfo {
   const username = userstate.username?.toLowerCase() || '';
 
+  if (userstate.badges?.broadcaster === '1') return { tier: 'broadcaster', limit: TIER_LIMITS.messages.broadcaster };
+
   if (VIP_USERS.includes(username)) {
     return { tier: 'reina', limit: TIER_LIMITS.messages.reina };
   }
-
-  if (userstate.badges?.broadcaster === '1') return { tier: 'broadcaster', limit: TIER_LIMITS.messages.broadcaster };
   if (userstate.mod === true) return { tier: 'mod', limit: TIER_LIMITS.messages.mod };
   if (userstate.badges?.vip === '1') return { tier: 'vip', limit: TIER_LIMITS.messages.vip };
   if (userstate.badges?.subscriber) {
@@ -225,11 +225,11 @@ function getUserTier(userstate: ChatUserstate): TierInfo {
 function getSearchTier(userstate: ChatUserstate): TierInfo {
   const username = userstate.username?.toLowerCase() || '';
 
+  if (userstate.badges?.broadcaster === '1') return { tier: 'broadcaster', limit: TIER_LIMITS.searches.broadcaster };
+
   if (VIP_USERS.includes(username)) {
     return { tier: 'reina', limit: TIER_LIMITS.searches.reina };
   }
-
-  if (userstate.badges?.broadcaster === '1') return { tier: 'broadcaster', limit: TIER_LIMITS.searches.broadcaster };
   if (userstate.mod === true) return { tier: 'mod', limit: TIER_LIMITS.searches.mod };
   if (userstate.badges?.vip === '1') return { tier: 'vip', limit: TIER_LIMITS.searches.vip };
   if (userstate.badges?.subscriber) {
