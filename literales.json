@@ -23,7 +23,7 @@
       "alerta_uso_rapido": "Echa el freno, que llevas {used} de {limit} mensajes en {minutes} minutos. ¡Qué estrés de vida!",
       "busca_no_tier": "La búsqueda es pa' los Tier 2 pa' arriba. Hay que tener nivel, compae.",
       "busca_limite": "Te puliste las {limit} búsquedas, quillo. Tienes un cooldown de 10 minutos, relájate un poco.",
-      "busca_en_cooldown": "Tranqui miarma, estás en cooldown. Te quedan {minutes} minuto(s) pa' volver a buscar.",
+      "busca_en_cooldown": "Tranqui quillo, estás en cooldown. Te quedan {minutes} minuto(s) pa' volver a buscar.",
       "busca_cooldown": "Espera 5 segunditos que lo estoy buscando, no me metas prisa.",
       "busca_sin_query": "Illo, pero dime qué busco. Usa !busca <lo que quieras>.",
       "busca_no_api": "Se ha ido el internet o algo, búscalo tú que yo no llego hoy.",
@@ -31,7 +31,7 @@
       "busca_sin_resultados": "No he encontrao ná de ná. Búscalo tú que yo no veo un pimiento.",
       "resumen_generando": "Espera que estoy recopilando los mejores momentos del stream...",
       "resumen_no_permiso": "Illo, el resumen solo lo puede pedir Teseo.",
-      "resumen_error": "Se me ha ido la olla resumiendo. Inténtalo otra vez, miarma."
+      "resumen_error": "Se me ha ido la olla resumiendo. Inténtalo otra vez, illo."
     },
     "en": {
       "mismensajes_infinito": "Mate, you've got unlimited access with me. Proper open bar, enjoy it!",
@@ -92,7 +92,7 @@
       "Contigo el chat sabe a pescaíto frito con su limoncito.",
       "Si fueras tapa serías la mejor del bar y repetiría hasta reventar.",
       "Que me tienes más enamorao que yo de las croquetas de mi abuela.",
-      "Miarma, eres como el olor a mar por la mañana, puro vicio.",
+      "Niña, eres como el olor a mar por la mañana, puro vicio.",
       "Si fueras jamón serías de pata negra cinco jotas, canela en rama.",
       "Eres más necesaria que el ajo en el ajoblanco en agosto.",
       "Tienes más arte que la Macarena bajando por la calle Feria.",
@@ -117,7 +117,7 @@
       "If beauty was time, you'd be an eternity... or at least a very long weekend.",
       "You make my heart race faster than seeing the ticket inspector when I haven't paid.",
       "I reckon you're fitter than the birds in the magazines, straight up.",
-      "You're more refreshing than an ice-cold cider at a festival, miarma.",
+      "You're more refreshing than an ice-cold cider at a festival, luv.",
       "I'd share my last bit of Nando's chicken with you, and I don't share food."
     ],
     "af": [

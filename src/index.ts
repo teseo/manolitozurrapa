@@ -765,7 +765,7 @@ client.on('message', (channel: string, tags: ChatUserstate, _message: string, se
     const responses = [
       `¡Ozú ${username}! ${streak} streams seguidos, eso es constancia illo! ${emote}`,
       `¡Aro ${username}! ${streak} directos sin fallar, crack quillo! ${emote}`,
-      `${streak} streams! ${username} eso es fidelidad miarma! ${emote}`,
+      `${streak} streams! ${username} eso es fidelidad illo! ${emote}`,
     ];
     client.say(channel, responses[Math.floor(Math.random() * responses.length)]);
   }
@@ -780,7 +780,7 @@ client.on('subscription', (channel: string, username: string) => {
   const responses = [
     `¡Ozú ${username}! Bienvenido a la familia illo! ${emote}`,
     `¡Aro ${username}! Ya eres de los nuestros quillo! ${emote}`,
-    `${username} se ha suscrito! Eso está buscao miarma! ${emote}`,
+    `${username} se ha suscrito! Eso está buscao illo! ${emote}`,
   ];
   client.say(channel, responses[Math.floor(Math.random() * responses.length)]);
 
@@ -855,7 +855,7 @@ client.on('cheer', (channel: string, tags: ChatUserstate) => {
   const emote = memoryManager.getEmote('love');
 
   if (bits >= 100) {
-    client.say(channel, `¡Ozú ${username}! ¡${bits} bits! Eso es mucho amor miarma! ${emote}`);
+    client.say(channel, `¡Ozú ${username}! ¡${bits} bits! Eso es mucho amor quillo! ${emote}`);
   } else {
     client.say(channel, `¡Gracias por los ${bits} bits ${username}! ${emote}`);
   }
