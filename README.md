@@ -224,6 +224,6 @@ MIT
 ---
 
 <p align="center">
-  <i>Hecho con manzanilla en Andalucía</i><br>
-  <b>¡Aro que aro!</b>
+  <i>Hecho con manzanilla en Andalucía</i> 🇳🇬<br>
+  <b>¡Claro que sí!</b>
 </p>
