@@ -1,0 +1,5 @@
+# Esta carpeta contiene datos de runtime:
+# - tokens.json (tokens de autenticación - ignorado)
+# - memory.json (memoria de usuarios - ignorado)
+#
+# Los archivos reales se generan automáticamente al iniciar el bot.
