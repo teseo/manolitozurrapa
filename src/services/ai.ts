@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { AIResponse, SearchResult, Literales, SupportedLanguage } from '../types/index.js';
 import type { MemoryManager } from '../managers/memory.js';
+import { sanitizeUserInput, wrapUserContent } from '../utils/helpers.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const LITERALES_PATH = path.join(__dirname, '../../literales.json');
@@ -52,6 +53,10 @@ export class AIService {
    * Pregunta simple a Manolito (sin búsqueda)
    */
   async ask(userMessage: string, username: string = 'viewer', lang: SupportedLanguage = 'es'): Promise<string> {
+    // Sanitizar input del usuario
+    const sanitizedMessage = sanitizeUserInput(userMessage);
+    const wrappedMessage = wrapUserContent(sanitizedMessage);
+
     const userRole = this.memory.detectRole(username);
     const userMemory = this.memory.getMemory(username);
     const systemPrompt = this.literales.system_prompt[lang] || this.literales.system_prompt.es;
@@ -72,7 +77,7 @@ IMPORTANTE:
       model: this.model,
       messages: [
         { role: 'system', content: contextPrompt },
-        { role: 'user', content: userMessage },
+        { role: 'user', content: wrappedMessage },
       ],
       max_tokens: 150,
       temperature: this.temperature,
@@ -98,12 +103,15 @@ IMPORTANTE:
   ): Promise<AIResponse> {
     const startGroq = Date.now();
 
+    // Sanitizar input del usuario
+    const sanitizedQuestion = sanitizeUserInput(question);
+
     const contexto = this.memory.getContext();
     const userRole = this.memory.detectRole(username);
     const userMemory = this.memory.getMemory(username);
     const userStreak = this.memory.getWatchStreak(username);
 
-    console.log(`🔍 Búsqueda de ${username} (${userRole}): ${question}`);
+    console.log(`🔍 Búsqueda de ${username} (${userRole}): ${sanitizedQuestion}`);
 
     // Construir fuentes con formato mejorado
     const sourcesText = searchResults
@@ -143,10 +151,11 @@ CRITICAL:
     const userPrompt = `SEARCH SOURCES (by relevance):
 ${sourcesText}
 
-QUESTION: ${question}
+USER QUESTION:
+<user_message>${sanitizedQuestion}</user_message>
 
 INSTRUCTIONS:
-- Synthesize info from sources
+- Synthesize info from sources to answer the user question
 - Give CONCRETE answer with specific data
 - Prioritize reliable sources (Wikipedia, official sites)
 - DO NOT invent data not in sources

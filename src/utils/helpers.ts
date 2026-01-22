@@ -175,3 +175,63 @@ export function getTierNumber(tier: string): number {
 export function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+/**
+ * Sanitiza input de usuario para prevenir prompt injection
+ * - Elimina patrones de injection comunes
+ * - Escapa delimitadores
+ * - Limita longitud
+ */
+export function sanitizeUserInput(input: string, maxLength: number = 500): string {
+  // Patrones de prompt injection a neutralizar
+  const injectionPatterns = [
+    /ignore\s+(all\s+)?(previous|above|prior)\s+(instructions?|prompts?|rules?|text)/gi,
+    /forget\s+(all\s+)?(previous|above|prior|your)\s+(instructions?|prompts?|rules?|context)/gi,
+    /disregard\s+(all\s+)?(previous|above|prior)\s+(instructions?|prompts?|rules?)/gi,
+    /override\s+(all\s+)?(previous|system)\s+(instructions?|prompts?|rules?)/gi,
+    /new\s+instructions?:/gi,
+    /system\s*prompt/gi,
+    /you\s+are\s+now/gi,
+    /act\s+as\s+(if\s+you\s+are|a)/gi,
+    /pretend\s+(to\s+be|you\s+are)/gi,
+    /roleplay\s+as/gi,
+    /from\s+now\s+on/gi,
+    /reveal\s+(your|the)\s+(instructions?|prompts?|rules?|system)/gi,
+    /what\s+(are|is)\s+your\s+(instructions?|prompts?|rules?|system)/gi,
+    /show\s+(me\s+)?(your|the)\s+(instructions?|prompts?|system)/gi,
+    /\[system\]/gi,
+    /\[assistant\]/gi,
+    /\[user\]/gi,
+    /<\|im_start\|>/gi,
+    /<\|im_end\|>/gi,
+    /```\s*(system|assistant|user)/gi,
+  ];
+
+  let sanitized = input;
+
+  // Neutralizar patrones de injection
+  for (const pattern of injectionPatterns) {
+    sanitized = sanitized.replace(pattern, '[BLOCKED]');
+  }
+
+  // Escapar delimitadores que podrían confundir al modelo
+  sanitized = sanitized
+    .replace(/---+/g, '-')
+    .replace(/===+/g, '=')
+    .replace(/\*\*\*+/g, '*')
+    .replace(/####+/g, '#');
+
+  // Limitar longitud
+  if (sanitized.length > maxLength) {
+    sanitized = sanitized.slice(0, maxLength);
+  }
+
+  return sanitized.trim();
+}
+
+/**
+ * Envuelve el contenido del usuario con delimitadores claros
+ */
+export function wrapUserContent(content: string): string {
+  return `<user_message>${content}</user_message>`;
+}
