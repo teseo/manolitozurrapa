@@ -1,0 +1,60 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Tokens y credenciales
+*.token
+*.tokens
+credentials.json
+
+# Build output (TypeScript compilado)
+dist/
+
+# Datos de usuario (contiene info privada)
+data/tokens.json
+data/memory.json
+data/usage_*.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+
+# Claude Code
+.claude/
+
+# Documentacion privada del proyecto
+CLAUDE_PROJECT.md
+CONTEXTO_TESEO.md
+
+# Configuracion especifica del canal (contiene usernames reales)
+CONTEXTO.md
+memory.js
+src/config/community.ts
+
+# Archivos de test con datos reales
+test-discord.js
+
+# Archivos JS legacy (migrados a TypeScript)
+/bot.js
+/auth.js
+/brave-search.js
+/discord-notify.js
+/manolito-ai.js
+/token-manager.js
