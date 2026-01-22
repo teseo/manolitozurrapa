@@ -584,19 +584,6 @@ client.on('message', async (channel: string, userstate: ChatUserstate, message: 
     return;
   }
 
-  // --- Comando !busca ---
-  if (lower.startsWith('!busca')) {
-    const query = trimmed.slice(6).trim();
-    // Detectar idioma de la query
-    if (query) {
-      const detectedLang = detectLanguage(query);
-      setUserLang(username, detectedLang);
-    }
-    const cmdLog = query ? `!busca ${query}` : '!busca';
-    await handleSearch(client, channel, userstate, query, cmdLog);
-    return;
-  }
-
   // --- Comando !oyemanolito o mención @manolitozurrapa ---
   const mentionMatch = lower.match(/^@manolitozurrapa\s*(.*)/);
   const isOyeManolito = lower.startsWith('!oyemanolito');

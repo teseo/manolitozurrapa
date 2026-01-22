@@ -30,8 +30,7 @@ Bot de Twitch con personalidad andaluza que crea clips, responde preguntas con I
 - Memoria de usuario: recuerda tus últimas conversaciones
 
 ### Búsqueda Web (Brave Search + IA)
-- **`!busca <query>`** - Busca en internet
-- **`@ManolitoZurrapa busca/buscame <query>`** - Por mención
+- **`@ManolitoZurrapa busca/buscame <query>`** - Busca en internet
 - Sintetiza resultados de múltiples fuentes
 - Cooldown de 10 minutos tras alcanzar límite (resetea contador)
 
@@ -179,8 +178,7 @@ npm run validate   # Verificar sintaxis TypeScript
 |---------|-------------|----------|
 | `!clip [seg] [título]` | Crear clip | VIP/Mod/Broadcaster |
 | `!oyemanolito <msg>` | Chat con IA | Subs |
-| `@ManolitoZurrapa <msg>` | Chat con IA | Subs |
-| `!busca <query>` | Buscar en web | T2+ |
+| `@ManolitoZurrapa <msg>` | Chat con IA (+ búsqueda con "busca/buscame") | Subs (búsqueda T2+) |
 | `!cuentamealgomanolito` | Dato curioso | Todos |
 | `!mismensajes` | Ver uso restante | Todos |
 | `!resumen` | Resumen del stream | Broadcaster |
