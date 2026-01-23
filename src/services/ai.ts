@@ -39,7 +39,7 @@ export class AIService {
     this.memory = memory;
     this.model = config.model || providerConfig.defaultModel;
     this.maxTokens = config.maxTokens || AI_DEFAULTS.maxTokens;
-    this.temperature = config.temperature || AI_DEFAULTS.temperature;
+    this.temperature = config.temperature ?? AI_DEFAULTS.temperature;
     this.literales = this.loadLiterales();
 
     console.log(`🤖 AI Service: ${this.provider} (${this.model})`);
