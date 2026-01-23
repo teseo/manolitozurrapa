@@ -69,3 +69,18 @@ export const API_URLS = {
   twitchClips: 'https://api.twitch.tv/helix/clips',
   braveSearch: 'https://api.search.brave.com/res/v1/web/search',
 } as const;
+
+// Configuración de proveedores de IA (compatibles con OpenAI SDK)
+export const AI_PROVIDERS = {
+  deepseek: { baseURL: 'https://api.deepseek.com', defaultModel: 'deepseek-chat' },
+  groq: { baseURL: 'https://api.groq.com/openai/v1', defaultModel: 'llama-3.3-70b-versatile' },
+  openai: { baseURL: 'https://api.openai.com/v1', defaultModel: 'gpt-4o-mini' },
+  openrouter: { baseURL: 'https://openrouter.ai/api/v1', defaultModel: 'meta-llama/llama-3.3-70b-instruct' },
+} as const;
+
+// Configuración por defecto de IA
+export const AI_DEFAULTS = {
+  provider: 'deepseek',
+  maxTokens: 200,
+  temperature: 1.3,  // DeepSeek recomienda 1.3 conversación, 1.5 creativo
+} as const;

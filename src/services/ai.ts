@@ -1,36 +1,69 @@
-import Groq from 'groq-sdk';
+import OpenAI from 'openai';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { AIResponse, SearchResult, Literales, SupportedLanguage } from '../types/index.js';
 import type { MemoryManager } from '../managers/memory.js';
 import { sanitizeUserInput, wrapUserContent } from '../utils/helpers.js';
+import { AI_PROVIDERS, AI_DEFAULTS } from '../config/constants.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const LITERALES_PATH = path.join(__dirname, '../../literales.json');
 
 interface AIServiceConfig {
   apiKey: string;
+  provider?: string;
   model?: string;
   maxTokens?: number;
   temperature?: number;
 }
 
 export class AIService {
-  private groq: Groq;
+  private client: OpenAI;
   private literales: Literales;
   private memory: MemoryManager;
   private model: string;
   private maxTokens: number;
   private temperature: number;
+  private provider: string;
+  private sessionTokens = { input: 0, output: 0, total: 0, requests: 0 };
 
   constructor(config: AIServiceConfig, memory: MemoryManager) {
-    this.groq = new Groq({ apiKey: config.apiKey });
+    this.provider = config.provider || AI_DEFAULTS.provider;
+    const providerConfig = AI_PROVIDERS[this.provider as keyof typeof AI_PROVIDERS] || AI_PROVIDERS[AI_DEFAULTS.provider];
+
+    this.client = new OpenAI({
+      apiKey: config.apiKey,
+      baseURL: providerConfig.baseURL,
+    });
     this.memory = memory;
-    this.model = config.model || 'llama-3.3-70b-versatile';
-    this.maxTokens = config.maxTokens || 200;
-    this.temperature = config.temperature || 0.7;
+    this.model = config.model || providerConfig.defaultModel;
+    this.maxTokens = config.maxTokens || AI_DEFAULTS.maxTokens;
+    this.temperature = config.temperature || AI_DEFAULTS.temperature;
     this.literales = this.loadLiterales();
+
+    console.log(`🤖 AI Service: ${this.provider} (${this.model})`);
+  }
+
+  /**
+   * Track token usage and log it
+   */
+  private trackTokens(usage: { prompt_tokens: number; completion_tokens: number; total_tokens: number } | undefined): void {
+    if (!usage) return;
+
+    this.sessionTokens.input += usage.prompt_tokens;
+    this.sessionTokens.output += usage.completion_tokens;
+    this.sessionTokens.total += usage.total_tokens;
+    this.sessionTokens.requests++;
+
+    console.log(`📊 Tokens [${this.provider}]: ${usage.prompt_tokens} in / ${usage.completion_tokens} out | Sesión: ${this.sessionTokens.total} total (${this.sessionTokens.requests} requests)`);
+  }
+
+  /**
+   * Get session token stats
+   */
+  getTokenStats(): { input: number; output: number; total: number; requests: number } {
+    return { ...this.sessionTokens };
   }
 
   private loadLiterales(): Literales {
@@ -80,7 +113,7 @@ IMPORTANTE:
 - Añade UN emote del canal al final: teseoFeliz, teseoCorazon, teseoClap
 `;
 
-    const response = await this.groq.chat.completions.create({
+    const response = await this.client.chat.completions.create({
       model: this.model,
       messages: [
         { role: 'system', content: contextPrompt },
@@ -89,6 +122,8 @@ IMPORTANTE:
       max_tokens: 200,
       temperature: this.temperature,
     });
+
+    this.trackTokens(response.usage);
 
     let result = response.choices[0]?.message?.content || this.getFallback(lang);
 
@@ -119,10 +154,10 @@ IMPORTANTE:
     question: string,
     searchResults: SearchResult[],
     username: string = 'viewer',
-    timings: { groq?: number } = {},
+    timings: { llm?: number } = {},
     lang: SupportedLanguage = 'es'
   ): Promise<AIResponse> {
-    const startGroq = Date.now();
+    const startLlm = Date.now();
 
     // Sanitizar input del usuario
     const sanitizedQuestion = sanitizeUserInput(question);
@@ -187,7 +222,7 @@ INSTRUCTIONS:
 - RESPOND IN ${langName.toUpperCase()}
 - Add channel emote at end`;
 
-    const response = await this.groq.chat.completions.create({
+    const response = await this.client.chat.completions.create({
       model: this.model,
       messages: [
         { role: 'system', content: systemPrompt },
@@ -197,8 +232,10 @@ INSTRUCTIONS:
       temperature: this.temperature,
     });
 
-    const endGroq = Date.now();
-    timings.groq = endGroq - startGroq;
+    const endLlm = Date.now();
+    timings.llm = endLlm - startLlm;
+
+    this.trackTokens(response.usage);
 
     let text = response.choices[0]?.message?.content || this.getFallback(lang);
 
