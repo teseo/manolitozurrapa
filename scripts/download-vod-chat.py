@@ -1,11 +1,41 @@
 #!/usr/bin/env python3
+"""
+Download VOD chat from Twitch using GQL API.
+
+Usage:
+    python download-vod-chat.py <video_id> <duration>
+
+    video_id: Twitch VOD ID (e.g., 2677280693)
+    duration: Video duration in format HH:MM:SS (e.g., 2:44:47)
+
+Example:
+    python download-vod-chat.py 2677280693 2:44:47
+"""
 import json
 import urllib.request
 import sys
 
-VIDEO_ID = "2677280693"
+# Twitch public web client ID
 CLIENT_ID = "kimne78kx3ncx6brgo4mv6wki5h1ko"
-VIDEO_LENGTH = 2*3600 + 44*60 + 47  # 2h44m47s en segundos
+
+def parse_duration(duration_str):
+    """Parse duration string HH:MM:SS or MM:SS to seconds."""
+    parts = duration_str.split(':')
+    if len(parts) == 3:
+        h, m, s = map(int, parts)
+    elif len(parts) == 2:
+        h = 0
+        m, s = map(int, parts)
+    else:
+        raise ValueError(f"Invalid duration format: {duration_str}")
+    return h * 3600 + m * 60 + s
+
+if len(sys.argv) < 3:
+    print(__doc__, file=sys.stderr)
+    sys.exit(1)
+
+VIDEO_ID = sys.argv[1]
+VIDEO_LENGTH = parse_duration(sys.argv[2])
 
 def fetch(video_id, offset=0):
     q = """query($v:ID!,$o:Int!){
