@@ -51,8 +51,15 @@ const tokenManager = new TokenManager({
 
 const memoryManager = new MemoryManager(COMMUNITY, EMOTES);
 
+const AI_PROVIDER_NAME = process.env.AI_PROVIDER || 'deepseek';
+
 const aiService = new AIService(
-  { apiKey: process.env.GROQ_API_KEY || '' },
+  {
+    apiKey: process.env.AI_API_KEY || '',
+    provider: AI_PROVIDER_NAME,
+    model: process.env.AI_MODEL,
+    temperature: process.env.AI_TEMPERATURE ? parseFloat(process.env.AI_TEMPERATURE) : undefined,
+  },
   memoryManager
 );
 
@@ -68,7 +75,9 @@ discordService.setMemoryManager(memoryManager);
 const twitchService = new TwitchService(tokenManager);
 
 const streamSummaryManager = new StreamSummaryManager({
-  groqApiKey: process.env.GROQ_API_KEY || '',
+  apiKey: process.env.AI_API_KEY || '',
+  provider: AI_PROVIDER_NAME,
+  model: process.env.AI_MODEL,
 });
 
 // ===========================================
@@ -422,7 +431,7 @@ async function handleSearch(
       return;
     }
 
-    const timings: { groq?: number } = {};
+    const timings: { llm?: number } = {};
     const userLang = getUserLang(username);
     const { response, debug } = await aiService.askWithSearch(query, results, username, timings, userLang);
     const finalResponse = response.slice(0, CHAR_LIMITS.response);
@@ -431,9 +440,9 @@ async function handleSearch(
 
     logSearch(query, results, debug.userPrompt, response, {
       brave: timeBrave,
-      groq: timings.groq || 0,
+      llm: timings.llm || 0,
       total: timeTotal,
-    });
+    }, AI_PROVIDER_NAME);
 
     log(userstate.username || '', cmdLog, finalResponse, {
       ...logOpts,

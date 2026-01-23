@@ -1,19 +1,20 @@
-import Groq from 'groq-sdk';
+import OpenAI from 'openai';
 import type {
   StreamEvent,
   StreamEventType,
   MiniSummary,
   SupportedLanguage,
 } from '../types/index.js';
-import { INTERVALS } from '../config/constants.js';
+import { INTERVALS, AI_PROVIDERS, AI_DEFAULTS } from '../config/constants.js';
 
 interface StreamSummaryConfig {
-  groqApiKey: string;
+  apiKey: string;
+  provider?: string;
   model?: string;
 }
 
 export class StreamSummaryManager {
-  private groq: Groq;
+  private client: OpenAI;
   private model: string;
   private streamStartedAt: string;
   private events: StreamEvent[] = [];
@@ -23,8 +24,14 @@ export class StreamSummaryManager {
   private summaryInterval: NodeJS.Timeout | null = null;
 
   constructor(config: StreamSummaryConfig) {
-    this.groq = new Groq({ apiKey: config.groqApiKey });
-    this.model = config.model || 'llama-3.3-70b-versatile';
+    const provider = config.provider || AI_DEFAULTS.provider;
+    const providerConfig = AI_PROVIDERS[provider as keyof typeof AI_PROVIDERS] || AI_PROVIDERS[AI_DEFAULTS.provider];
+
+    this.client = new OpenAI({
+      apiKey: config.apiKey,
+      baseURL: providerConfig.baseURL,
+    });
+    this.model = config.model || providerConfig.defaultModel;
     this.streamStartedAt = new Date().toISOString();
     this.lastSummaryTime = Date.now();
   }
@@ -217,7 +224,7 @@ export class StreamSummaryManager {
     const systemPrompt = `Eres un asistente que resume eventos de streams de Twitch. ${langPrompts[lang]}`;
 
     try {
-      const response = await this.groq.chat.completions.create({
+      const response = await this.client.chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },
@@ -289,7 +296,7 @@ Sluit die hoogtepunte in en noem belangrike gebruikers.`,
     const systemPrompt = langPrompts[lang];
 
     try {
-      const response = await this.groq.chat.completions.create({
+      const response = await this.client.chat.completions.create({
         model: this.model,
         messages: [
           { role: 'system', content: systemPrompt },

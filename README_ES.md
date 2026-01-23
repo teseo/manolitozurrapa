@@ -9,7 +9,7 @@ Bot de Twitch con personalidad andaluza que crea clips, responde preguntas con I
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?logo=typescript)
 ![Node.js](https://img.shields.io/badge/Node.js-20+-green?logo=node.js)
 ![Twitch](https://img.shields.io/badge/Twitch-Bot-9146FF?logo=twitch)
-![Groq](https://img.shields.io/badge/Groq-Llama_3.3_70B-orange)
+![AI](https://img.shields.io/badge/AI-DeepSeek%20%7C%20Groq%20%7C%20OpenAI-orange?logo=openai)
 ![Brave](https://img.shields.io/badge/Brave-Search_API-FB542B?logo=brave)
 ![Discord](https://img.shields.io/badge/Discord-Webhooks-5865F2?logo=discord)
 
@@ -24,7 +24,7 @@ Bot de Twitch con personalidad andaluza que crea clips, responde preguntas con I
 - Permisos: Broadcaster, Mods, VIPs
 - Notificación automática a Discord
 
-### Chat con IA (Groq + Llama 3.3 70B)
+### Chat con IA (DeepSeek / Groq / OpenAI)
 - **`!oyemanolito <pregunta>`** - Chat rápido con Manolito
 - **`@ManolitoZurrapa <mensaje>`** - Interacción completa (chat + búsquedas)
 - Personalidad andaluza: illo, quillo, aro, ozú, miarma...
@@ -182,6 +182,30 @@ npm run validate   # Verificar sintaxis TypeScript
 
 ---
 
+## Herramientas
+
+### Descargar Chat de VODs
+
+Script Python para descargar el chat completo de cualquier VOD de Twitch:
+
+```bash
+# Editar VIDEO_ID en el script
+python3 scripts/download-vod-chat.py
+```
+
+**Requisitos:**
+- Python 3.6+
+- VOD público (si es privado/solo subs, hacerlo público primero)
+
+**Output:** `logs/chat_vod_<VIDEO_ID>.txt`
+
+**Notas:**
+- Usa la API GQL de Twitch (no requiere auth para VODs públicos)
+- Descarga en segmentos de 5 minutos para cubrir todo el video
+- Evita duplicados automáticamente
+
+---
+
 ## Comandos del Bot
 
 | Comando | Descripción | Permisos |
@@ -201,7 +225,7 @@ npm run validate   # Verificar sintaxis TypeScript
 - **Runtime:** Node.js 20+ (ES Modules)
 - **Lenguaje:** TypeScript 5+
 - **Chat:** tmi.js
-- **LLM:** Groq API + Llama 3.3 70B Versatile
+- **LLM:** Multi-proveedor (DeepSeek, Groq, OpenAI, OpenRouter)
 - **Search:** Brave Search API
 - **Notificaciones:** Discord Webhooks
 - **Auth:** Twitch OAuth 2.0 con auto-refresh

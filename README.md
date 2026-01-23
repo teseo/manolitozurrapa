@@ -9,7 +9,7 @@ Twitch bot with Andalusian personality that creates clips, answers questions wit
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?logo=typescript)
 ![Node.js](https://img.shields.io/badge/Node.js-20+-green?logo=node.js)
 ![Twitch](https://img.shields.io/badge/Twitch-Bot-9146FF?logo=twitch)
-![Groq](https://img.shields.io/badge/Groq-Llama_3.3_70B-orange)
+![AI](https://img.shields.io/badge/AI-DeepSeek%20%7C%20Groq%20%7C%20OpenAI-orange?logo=openai)
 ![Brave](https://img.shields.io/badge/Brave-Search_API-FB542B?logo=brave)
 ![Discord](https://img.shields.io/badge/Discord-Webhooks-5865F2?logo=discord)
 
@@ -24,7 +24,7 @@ Twitch bot with Andalusian personality that creates clips, answers questions wit
 - Permissions: Broadcaster, Mods, VIPs
 - Automatic Discord notification
 
-### AI Chat (Groq + Llama 3.3 70B)
+### AI Chat (DeepSeek / Groq / OpenAI)
 - **`!oyemanolito <question>`** - Quick chat with Manolito
 - **`@ManolitoZurrapa <message>`** - Full interaction (chat + search)
 - Andalusian personality: illo, quillo, aro, ozú, miarma...
@@ -201,7 +201,7 @@ npm run validate   # Check TypeScript syntax
 - **Runtime:** Node.js 20+ (ES Modules)
 - **Language:** TypeScript 5+
 - **Chat:** tmi.js
-- **LLM:** Groq API + Llama 3.3 70B Versatile
+- **LLM:** Multi-provider (DeepSeek, Groq, OpenAI, OpenRouter)
 - **Search:** Brave Search API
 - **Notifications:** Discord Webhooks
 - **Auth:** Twitch OAuth 2.0 with auto-refresh

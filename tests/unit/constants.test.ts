@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { INTERVALS, TIER_LIMITS, RETRY_CONFIG, CHAR_LIMITS, API_URLS } from '../../src/config/constants.js';
+import { INTERVALS, TIER_LIMITS, RETRY_CONFIG, CHAR_LIMITS, API_URLS, AI_PROVIDERS, AI_DEFAULTS } from '../../src/config/constants.js';
 
 describe('INTERVALS', () => {
   it('should have correct token validation interval', () => {
@@ -87,5 +87,62 @@ describe('API_URLS', () => {
 
   it('should have correct Brave Search URL', () => {
     expect(API_URLS.braveSearch).toBe('https://api.search.brave.com/res/v1/web/search');
+  });
+});
+
+describe('AI_PROVIDERS', () => {
+  it('should have deepseek provider configured', () => {
+    expect(AI_PROVIDERS.deepseek).toBeDefined();
+    expect(AI_PROVIDERS.deepseek.baseURL).toBe('https://api.deepseek.com');
+    expect(AI_PROVIDERS.deepseek.defaultModel).toBe('deepseek-chat');
+  });
+
+  it('should have groq provider configured', () => {
+    expect(AI_PROVIDERS.groq).toBeDefined();
+    expect(AI_PROVIDERS.groq.baseURL).toBe('https://api.groq.com/openai/v1');
+    expect(AI_PROVIDERS.groq.defaultModel).toBe('llama-3.3-70b-versatile');
+  });
+
+  it('should have openai provider configured', () => {
+    expect(AI_PROVIDERS.openai).toBeDefined();
+    expect(AI_PROVIDERS.openai.baseURL).toBe('https://api.openai.com/v1');
+    expect(AI_PROVIDERS.openai.defaultModel).toBe('gpt-4o-mini');
+  });
+
+  it('should have openrouter provider configured', () => {
+    expect(AI_PROVIDERS.openrouter).toBeDefined();
+    expect(AI_PROVIDERS.openrouter.baseURL).toBe('https://openrouter.ai/api/v1');
+    expect(AI_PROVIDERS.openrouter.defaultModel).toBe('meta-llama/llama-3.3-70b-instruct');
+  });
+
+  it('should have all providers with required properties', () => {
+    const providers = Object.keys(AI_PROVIDERS);
+    expect(providers.length).toBeGreaterThanOrEqual(4);
+
+    for (const provider of providers) {
+      const config = AI_PROVIDERS[provider as keyof typeof AI_PROVIDERS];
+      expect(config.baseURL).toBeDefined();
+      expect(config.baseURL).toMatch(/^https:\/\//);
+      expect(config.defaultModel).toBeDefined();
+      expect(config.defaultModel.length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe('AI_DEFAULTS', () => {
+  it('should have deepseek as default provider', () => {
+    expect(AI_DEFAULTS.provider).toBe('deepseek');
+  });
+
+  it('should have correct default maxTokens', () => {
+    expect(AI_DEFAULTS.maxTokens).toBe(200);
+  });
+
+  it('should have correct default temperature for conversation', () => {
+    expect(AI_DEFAULTS.temperature).toBe(1.3);
+  });
+
+  it('should have default provider that exists in AI_PROVIDERS', () => {
+    expect(AI_PROVIDERS[AI_DEFAULTS.provider as keyof typeof AI_PROVIDERS]).toBeDefined();
   });
 });

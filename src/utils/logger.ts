@@ -88,7 +88,8 @@ export function logSearch(
   results: SearchResult[],
   prompt: string,
   response: string,
-  timings: { brave: number; groq: number; total: number }
+  timings: { brave: number; llm: number; total: number },
+  provider: string = 'LLM'
 ): void {
   console.log('');
   console.log('═══════════════════════════════════════════════════════════');
@@ -110,13 +111,13 @@ export function logSearch(
 
   console.log('');
   console.log('───────────────────────────────────────────────────────────');
-  console.log('🤖 PROMPT ENVIADO A GROQ');
+  console.log(`🤖 PROMPT ENVIADO A ${provider.toUpperCase()}`);
   console.log('───────────────────────────────────────────────────────────');
   console.log('');
   console.log(prompt);
   console.log('');
   console.log('───────────────────────────────────────────────────────────');
-  console.log('💬 RESPUESTA DE GROQ');
+  console.log(`💬 RESPUESTA DE ${provider.toUpperCase()}`);
   console.log('───────────────────────────────────────────────────────────');
   console.log('');
   console.log(response);
@@ -124,7 +125,7 @@ export function logSearch(
   console.log('📏 Longitud:', response.length, 'chars');
   console.log('');
   console.log('⏱️ Brave:', timings.brave, 'ms');
-  console.log('⏱️ Groq:', timings.groq, 'ms');
+  console.log(`⏱️ ${provider}:`, timings.llm, 'ms');
   console.log('⏱️ Total:', timings.total, 'ms');
   console.log('═══════════════════════════════════════════════════════════');
   console.log('');

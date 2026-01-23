@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "groq-sdk": "^0.37.0",
+    "openai": "^4.77.0",
     "tmi.js": "^1.8.5"
   },
   "devDependencies": {
@@ -48,8 +48,7 @@
     "bot",
     "clips",
     "ai",
-    "groq",
-    "llama",
+    "deepseek",
     "typescript",
     "andalucia"
   ],
@@ -60,7 +59,7 @@
     "url": "https://github.com/tu-usuario/manolito-zurrapa.git"
   },
   "lint-staged": {
-    "*.ts": [
+    "src/**/*.ts": [
       "tsc-files --noEmit"
     ]
   }
