@@ -123,7 +123,8 @@ TWITCH_CLIENT_ID=tu_client_id
 TWITCH_CLIENT_SECRET=tu_client_secret
 TWITCH_CHANNEL=tu_canal
 TWITCH_BOT_USERNAME=nombre_del_bot
-GROQ_API_KEY=tu_groq_api_key
+AI_API_KEY=tu_ai_api_key
+AI_PROVIDER=deepseek
 BRAVE_API_KEY=tu_brave_api_key
 DISCORD_WEBHOOK_URL=tu_webhook_url
 ```
