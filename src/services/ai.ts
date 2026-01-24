@@ -202,7 +202,7 @@ ${userMemory ? `HISTORY: ${userMemory.lastTopics.join(', ')}` : 'First interacti
 
 CRITICAL:
 - RESPOND IN ${langName.toUpperCase()}
-- Max 350 characters
+- Between 250-350 characters (never under 250)
 - Add ONE channel emote at the end: teseoFeliz, teseoCorazon, teseoClap, teseoRisitas, teseoHappy
 - If user is Mariajosobrasada or Glorimar97, treat as queen 👸
 `;
@@ -218,7 +218,7 @@ INSTRUCTIONS:
 - Give CONCRETE answer with specific data
 - Prioritize reliable sources (Wikipedia, official sites)
 - DO NOT invent data not in sources
-- Max 350 characters
+- Between 250-350 characters (never under 250)
 - RESPOND IN ${langName.toUpperCase()}
 - Add channel emote at end`;
 
